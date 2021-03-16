@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup";
+option java_outer_classname = "PixKeymanagerGrpc";
+option objc_class_prefix = "HLW";
+
+package br.com.zup;
+
+service PixKeyManagerGrpcService {
+  rpc registerKey (PixKeyRequest) returns (PixKeyResponse) {}
+}
+
+enum KeyType {
+  UNKNOWN = 0;
+  CPF = 1;
+  PHONE_NUMBER = 2;
+  EMAIL = 3;
+  RANDOM_KEY = 4;
+}
+
+enum AccountType {
+  UNKNOWN_ACCOUNT = 0;
+  CURRENT_ACCOUNT = 1;
+  SAVINGS_ACCOUNT = 2;
+}
+
+message PixKeyRequest {
+  string customerId = 1;
+  KeyType keyType = 2;
+  string key = 3;
+  AccountType accountType = 4;
+}
+
+message PixKeyResponse {
+  string pixId = 1;
+
+}

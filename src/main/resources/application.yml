@@ -1,0 +1,20 @@
+micronaut:
+  application:
+    name: pixKeymanagerGrpc
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/pixkeymanager
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: 1234
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+sistemaitau:
+  clientes: http://localhost:9091/api/v1/clientes
