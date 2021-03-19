@@ -46,4 +46,8 @@ data class PixKey(
         this.key = key
     }
 
+    fun belongsToCustomer(customerId: UUID): Boolean {
+        return this.customerId == customerId
+    }
+
 }

@@ -5,6 +5,7 @@ import br.com.zup.KeyType
 import br.com.zup.integration.bcb.PixKeyDetails
 import br.com.zup.pixkey.registration.AssociatedAccount
 import java.time.LocalDateTime
+import java.util.*
 
 class PixKeyDetailsResponse(
     val keyType: KeyType,

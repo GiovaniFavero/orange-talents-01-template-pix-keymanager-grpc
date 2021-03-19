@@ -29,28 +29,5 @@ class PixKeyRegistrationEndpoint(
                                 .build())
 
         responseObserver.onCompleted()
-
-        /*
-        val errors = processRequestValidations(request, customerRequestClient, pixKeyRepository);
-        errors.forEach {
-            responseObserver?.onError(it)
-        }
-
-      //  val bcbPixKeyRequest: CreatePixKeyRequest =
-
-        /* Salvar no banco */
-        val pixKey: PixKey? = request?.toModel()
-
-        pixKeyRepository.save(pixKey!!)
-        logger.info("Pix Key: ${pixKey.toString()}")
-
-        PixKeyResponse.newBuilder()
-            .setPixId(pixKey.id.toString()!!)
-            .build()
-            .let {
-                responseObserver!!.onNext(it)
-            }
-        responseObserver?.onCompleted()*/
-
     }
 }
