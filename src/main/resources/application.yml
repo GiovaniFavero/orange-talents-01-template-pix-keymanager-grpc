@@ -1,6 +1,15 @@
 micronaut:
   application:
     name: pixKeymanagerGrpc
+  http:
+    client:
+      log-level: DEBUG
+
+grpc:
+  server:
+    port: ${SERVER_GRPC_PORT:50051}
+    keep-alive-time: 1h
+    max-inbound-message-size: 1024
 
 datasources:
   default:
@@ -16,5 +25,11 @@ jpa:
         hbm2ddl:
           auto: update
 
-sistemaitau:
+itau:
   clientes: http://localhost:9091/api/v1/clientes
+  contas:
+    url: http://localhost:9091
+
+bcb:
+  pix:
+    url: http://localhost:8082
