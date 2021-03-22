@@ -13,4 +13,6 @@ interface PixKeyRepository : JpaRepository<PixKey, UUID> {
 
     fun findByKey(key: String) : Optional<PixKey>
 
+    fun findAllByCustomerId(customerId: UUID): List<PixKey>
+
 }

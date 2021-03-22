@@ -21,7 +21,7 @@ enum class PixKeyType {
         }
 
     },
-    PHONE_NUMBER {
+    PHONE {
         override fun validate(key: String?): Boolean {
             if(key.isNullOrBlank()) {
                 return false
