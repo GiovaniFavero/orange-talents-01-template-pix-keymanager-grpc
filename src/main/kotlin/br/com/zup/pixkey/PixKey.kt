@@ -3,6 +3,7 @@ package br.com.zup.pixkey
 import br.com.zup.AccountType
 import br.com.zup.KeyType
 import br.com.zup.pixkey.registration.AssociatedAccount
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 import javax.validation.Valid

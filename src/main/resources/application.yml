@@ -13,10 +13,10 @@ grpc:
 
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/pixkeymanager
+    url: ${DATABASE_URL:`jdbc:postgresql://localhost:5432/pixkeymanager`}
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: 1234
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:1234}
 
 jpa:
   default:
@@ -26,10 +26,9 @@ jpa:
           auto: update
 
 itau:
-  clientes: http://localhost:9091/api/v1/clientes
   contas:
-    url: http://localhost:9091
+    url: ${SERVER_ITAU:`http://localhost:9091`}
 
 bcb:
   pix:
-    url: http://localhost:8082
+    url: ${SERVER_BCB:`http://localhost:8082`}
