@@ -1,0 +1,34 @@
+micronaut:
+  application:
+    name: pixKeymanagerGrpc
+  http:
+    client:
+      log-level: DEBUG
+
+grpc:
+  server:
+    port: ${SERVER_GRPC_PORT:50051}
+    keep-alive-time: 1h
+    max-inbound-message-size: 1024
+
+datasources:
+  default:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+itau:
+  contas:
+    url: ${SERVER_ITAU:`http://localhost:9091`}
+
+bcb:
+  pix:
+    url: ${SERVER_BCB:`http://localhost:8082`}

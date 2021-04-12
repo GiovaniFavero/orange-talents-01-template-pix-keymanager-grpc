@@ -7,13 +7,14 @@ import br.com.zup.integration.bcb.BcbPixKeyClient
 import br.com.zup.pixkey.PixKeyRepository
 import br.com.zup.shared.grpc.ErrorHandler
 import io.grpc.stub.StreamObserver
+import javax.inject.Inject
 import javax.inject.Singleton
 import javax.validation.Validator
 
 @ErrorHandler
 @Singleton
 class PixKeyConsultationEndpoint(
-    private val repository: PixKeyRepository,
+    @Inject val repository: PixKeyRepository,
     private val bcbPixKeyClient: BcbPixKeyClient,
     private val validator: Validator
 ) : PixKeyConsultationServiceGrpc.PixKeyConsultationServiceImplBase() {

@@ -22,8 +22,8 @@ class ValidPixKeyValidator: ConstraintValidator<ValidPixKey, NewPixKey> {
 
     override fun isValid(
         value: NewPixKey?,
-        annotationMetadata: AnnotationValue<ValidPixKey>,
-        context: io.micronaut.validation.validator.constraints.ConstraintValidatorContext
+        annotationMetadata: AnnotationValue<ValidPixKey>?,
+        context: io.micronaut.validation.validator.constraints.ConstraintValidatorContext?
     ): Boolean {
 
         if(value?.keyType == null) {

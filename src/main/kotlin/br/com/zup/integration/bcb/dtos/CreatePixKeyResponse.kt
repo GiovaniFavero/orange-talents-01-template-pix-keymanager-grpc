@@ -5,7 +5,7 @@ import io.micronaut.core.annotation.Introspected
 import java.time.LocalDateTime
 
 @Introspected
-class CreatePixKeyResponse(
+data class CreatePixKeyResponse(
     val keyType: KeyType,
     val key: String,
     val bankAccount: BankAccount,
