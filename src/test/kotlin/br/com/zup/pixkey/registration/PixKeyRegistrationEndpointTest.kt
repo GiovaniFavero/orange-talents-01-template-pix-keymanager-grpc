@@ -29,13 +29,15 @@ import javax.inject.Singleton
 
 @MicronautTest(transactional = false)
 internal class PixKeyRegistrationEndpointTest(
-    val repository: PixKeyRepository,
-    val grpcClient: PixKeyRegistrationGrpcServiceGrpc.PixKeyRegistrationGrpcServiceBlockingStub
+    private val repository: PixKeyRepository,
+    private val grpcClient: PixKeyRegistrationGrpcServiceGrpc.PixKeyRegistrationGrpcServiceBlockingStub
 ) {
 
-    private val customerId = UUID.randomUUID().toString()
-    private val accountType = "CONTA_CORRENTE"
-    private val cpfValidKey = "71263991033"
+    companion object {
+        const val CUSTOMER_ID = "e4ff63ac-83e4-44a8-8bb6-2ecfd2c1bd80"
+        const val ACCOUNT_TYPE = "CONTA_CORRENTE"
+        const val VALID_CPF = "71263991033"
+    }
 
     @Inject
     lateinit var itauClient: CustomerRequestClient
@@ -66,9 +68,9 @@ internal class PixKeyRegistrationEndpointTest(
         assertTrue(key.isPresent)
         key.get().let {
             assertAll("Should insert a PixKey in database",
-                { assertEquals(it.key, cpfValidKey) },
+                { assertEquals(it.key, VALID_CPF) },
                 { assertEquals(it.keyType, KeyType.CPF) },
-                { assertEquals(it.customerId, UUID.fromString(customerId)) }
+                { assertEquals(it.customerId, UUID.fromString(CUSTOMER_ID)) }
             )
         }
     }
@@ -79,9 +81,9 @@ internal class PixKeyRegistrationEndpointTest(
         this.mockBcbPixKeyRegistrationSuccess()
 
         val pixKey = PixKey(
-            customerId = UUID.fromString(customerId),
+            customerId = UUID.fromString(CUSTOMER_ID),
             keyType = KeyType.CPF,
-            key = cpfValidKey,
+            key = VALID_CPF,
             accountType = AccountType.CURRENT_ACCOUNT,
             account = AssociatedAccount(
                 institution = "",
@@ -134,16 +136,16 @@ internal class PixKeyRegistrationEndpointTest(
 
     private fun registerPixKeyGrpc() : PixKeyResponse {
         return grpcClient.registerKey(PixKeyRequest.newBuilder()
-            .setCustomerId(this.customerId)
+            .setCustomerId(CUSTOMER_ID)
             .setKeyType(KeyType.CPF)
-            .setKey(cpfValidKey)
+            .setKey(VALID_CPF)
             .setAccountType(AccountType.CURRENT_ACCOUNT)
             .build())
     }
 
     private fun mockItauExistingCustomerConsultation() {
         Mockito
-            .`when`(itauClient.getAccountByType(this.customerId, this.accountType))
+            .`when`(itauClient.getAccountByType(CUSTOMER_ID, ACCOUNT_TYPE))
             .thenReturn(HttpResponse
                 .created(AccountDataResponse(
                     instituicao = InstitutionResponse(
@@ -163,7 +165,7 @@ internal class PixKeyRegistrationEndpointTest(
 
     private fun mockItauNonExistingCustomerConsultation() {
         Mockito
-            .`when`(itauClient.getAccountByType(this.customerId, this.accountType))
+            .`when`(itauClient.getAccountByType(CUSTOMER_ID, ACCOUNT_TYPE))
             .thenReturn(HttpResponse
                 .notFound())
     }
@@ -173,7 +175,7 @@ internal class PixKeyRegistrationEndpointTest(
             .`when`(bcbClient.registerBcbPixKey(
                 CreatePixKeyRequest(
                     keyType = KeyType.CPF,
-                    key = cpfValidKey,
+                    key = VALID_CPF,
                     bankAccount = BankAccount(
                         participant = AssociatedAccount.ITAU_UNIBANCO_ISPB,
                         branch = "branch",
@@ -190,7 +192,7 @@ internal class PixKeyRegistrationEndpointTest(
                 HttpResponse.created(
                     CreatePixKeyResponse(
                         keyType = KeyType.CPF,
-                        key = cpfValidKey,
+                        key = VALID_CPF,
                         bankAccount = BankAccount(
                             participant = AssociatedAccount.ITAU_UNIBANCO_ISPB,
                             branch = "branch",
@@ -213,7 +215,7 @@ internal class PixKeyRegistrationEndpointTest(
             .`when`(bcbClient.registerBcbPixKey(
                 CreatePixKeyRequest(
                     keyType = KeyType.CPF,
-                    key = cpfValidKey,
+                    key = VALID_CPF,
                     bankAccount = BankAccount(
                         participant = AssociatedAccount.ITAU_UNIBANCO_ISPB,
                         branch = "branch",

@@ -23,11 +23,13 @@ import javax.inject.Singleton
 
 @MicronautTest(transactional = false)
 internal class PixKeyConsultationListEndpointTest (
-    val repository: PixKeyRepository,
-    val grpcClient: PixKeyListConsultationServiceGrpc.PixKeyListConsultationServiceBlockingStub
+    private val repository: PixKeyRepository,
+    private val grpcClient: PixKeyListConsultationServiceGrpc.PixKeyListConsultationServiceBlockingStub
     ) {
 
-    private val customerId = UUID.randomUUID()
+    companion object {
+        const val CUSTOMER_ID = "e4ff63ac-83e4-44a8-8bb6-2ecfd2c1bd80"
+    }
 
     @BeforeEach
     fun before() {
@@ -42,7 +44,7 @@ internal class PixKeyConsultationListEndpointTest (
         repository.save(getNewPixKey(KeyType.RANDOM, "89023749u4nh32junbikju"))
 
         val response = grpcClient.getPixKeyList(PixKeyListRequest.newBuilder()
-            .setCustomerId(this.customerId.toString())
+            .setCustomerId(CUSTOMER_ID)
             .build())
         assertEquals(4, response.keysCount)
     }
@@ -60,7 +62,7 @@ internal class PixKeyConsultationListEndpointTest (
 
     private fun getNewPixKey(keyType: KeyType, key: String): PixKey {
         return PixKey(
-            customerId = this.customerId,
+            customerId = UUID.fromString(CUSTOMER_ID),
             keyType = keyType,
             key = key,
             accountType = AccountType.CURRENT_ACCOUNT,

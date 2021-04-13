@@ -37,7 +37,7 @@ class PixKeyRemovalService(
 
         val request = DeletePixKeyRequest(key.key)
 
-        logger.info("Deleting pix key in BCB")
+        logger.info("Deleting pix key in BCB: ${key.key} - $request")
         val bcbResponse = bcbPixKeyClient.deleteBcbPixKey(key = key.key, request = request)
         if (bcbResponse.status != HttpStatus.OK) {
             throw IllegalStateException("Something went wrong to delete pix key in BCB")

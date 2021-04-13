@@ -31,12 +31,31 @@ import javax.inject.Singleton
 
 @MicronautTest(transactional = false)
 internal class PixKeyConsultationEndpointTest(
-    val repository: PixKeyRepository,
-    val grpcClient: PixKeyConsultationServiceGrpc.PixKeyConsultationServiceBlockingStub
+    private val repository: PixKeyRepository,
+    private val grpcClient: PixKeyConsultationServiceGrpc.PixKeyConsultationServiceBlockingStub
 ) {
 
-    private val customerId: String = "10287c77-c22c-48f9-8bfd-f1892b5746f0"
-    private val validCpf = "71263991033"
+    companion object {
+        const val CUSTOMER_ID = "e4ff63ac-83e4-44a8-8bb6-2ecfd2c1bd80"
+        const val VALID_CPF = "71263991033"
+
+        @JvmStatic
+        fun getNotFoundArguments() : Stream<Arguments> {
+            return Stream.of(Arguments.of(
+                PixKeyConsultationRequest.newBuilder()
+                    .setKey("1234")
+                    .build()),
+                Arguments.of(PixKeyConsultationRequest.newBuilder()
+                    .setPixId(
+                        PixKeyConsultationRequest.PixKeyId.newBuilder()
+                            .setPixId("10287c77-c22c-48f9-8bfd-f1892b5746f0")
+                            .setCustomerId("10287c77-c22c-48f9-8bfd-f1892b5746f0")
+                            .build())
+                    .build()
+                ))
+        }
+    }
+
     private var pixKey: PixKey? = null
 
     @Inject
@@ -66,7 +85,7 @@ internal class PixKeyConsultationEndpointTest(
         assertNotNull(response)
         with(response) {
             assertEquals(KeyType.CPF, response.key.keyType)
-            assertEquals(validCpf, response.key.key)
+            assertEquals(VALID_CPF, response.key.key)
             assertEquals(customerId, response.customerId)
         }
     }
@@ -77,13 +96,13 @@ internal class PixKeyConsultationEndpointTest(
 
         val response = grpcClient.getPixKeyDetail(PixKeyConsultationRequest
             .newBuilder()
-            .setKey(validCpf)
+            .setKey(VALID_CPF)
             .build()
         )
         assertNotNull(response)
         with(response) {
             assertEquals(KeyType.CPF, response.key.keyType)
-            assertEquals(validCpf, response.key.key)
+            assertEquals(VALID_CPF, response.key.key)
             assertEquals(customerId, response.customerId)
         }
     }
@@ -101,29 +120,11 @@ internal class PixKeyConsultationEndpointTest(
         assertEquals("Pix Key not found!", error.status.description)
     }
 
-    companion object {
-        @JvmStatic
-        fun getNotFoundArguments() : Stream<Arguments> {
-            return Stream.of(Arguments.of(
-                PixKeyConsultationRequest.newBuilder()
-                    .setKey("1234")
-                    .build()),
-                Arguments.of(PixKeyConsultationRequest.newBuilder()
-                    .setPixId(
-                        PixKeyConsultationRequest.PixKeyId.newBuilder()
-                            .setPixId("10287c77-c22c-48f9-8bfd-f1892b5746f0")
-                            .setCustomerId("10287c77-c22c-48f9-8bfd-f1892b5746f0")
-                            .build())
-                    .build()
-            ))
-        }
-    }
-
     private fun insertPixKey() {
         val pixKey = PixKey(
-            customerId = UUID.fromString(this.customerId),
+            customerId = UUID.fromString(CUSTOMER_ID),
             keyType = KeyType.CPF,
-            key = validCpf,
+            key = VALID_CPF,
             accountType = AccountType.CURRENT_ACCOUNT,
             account = AssociatedAccount(
                 institution = "",
