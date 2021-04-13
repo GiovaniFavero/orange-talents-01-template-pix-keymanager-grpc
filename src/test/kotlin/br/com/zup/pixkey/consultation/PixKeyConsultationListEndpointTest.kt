@@ -19,13 +19,13 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @MicronautTest(transactional = false)
 internal class PixKeyConsultationListEndpointTest (
     val repository: PixKeyRepository,
-    @Inject val grpcClient: PixKeyListConsultationServiceGrpc.PixKeyListConsultationServiceBlockingStub) {
+    val grpcClient: PixKeyListConsultationServiceGrpc.PixKeyListConsultationServiceBlockingStub
+    ) {
 
     private val customerId = UUID.randomUUID()
 
@@ -75,7 +75,7 @@ internal class PixKeyConsultationListEndpointTest (
     }
 
     @Factory
-    class Clients {
+    class ClientsGrpc {
         @Singleton
         fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): PixKeyListConsultationServiceGrpc.PixKeyListConsultationServiceBlockingStub {
             return PixKeyListConsultationServiceGrpc.newBlockingStub(channel)

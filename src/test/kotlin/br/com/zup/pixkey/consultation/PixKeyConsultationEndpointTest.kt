@@ -1,6 +1,9 @@
 package br.com.zup.pixkey.consultation
 
-import br.com.zup.*
+import br.com.zup.AccountType
+import br.com.zup.KeyType
+import br.com.zup.PixKeyConsultationRequest
+import br.com.zup.PixKeyConsultationServiceGrpc
 import br.com.zup.integration.bcb.BcbPixKeyClient
 import br.com.zup.pixkey.PixKey
 import br.com.zup.pixkey.PixKeyRepository
@@ -29,7 +32,7 @@ import javax.inject.Singleton
 @MicronautTest(transactional = false)
 internal class PixKeyConsultationEndpointTest(
     val repository: PixKeyRepository,
-    @Inject val grpcClient: PixKeyConsultationServiceGrpc.PixKeyConsultationServiceBlockingStub
+    val grpcClient: PixKeyConsultationServiceGrpc.PixKeyConsultationServiceBlockingStub
 ) {
 
     private val customerId: String = "10287c77-c22c-48f9-8bfd-f1892b5746f0"
