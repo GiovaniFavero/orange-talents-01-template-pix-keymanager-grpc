@@ -29,8 +29,8 @@ import javax.inject.Singleton
 
 @MicronautTest(transactional = false)
 internal class PixKeyRegistrationEndpointTest(
-    @Inject val repository: PixKeyRepository,
-    @Inject val grpcClient: PixKeyRegistrationGrpcServiceGrpc.PixKeyRegistrationGrpcServiceBlockingStub
+    val repository: PixKeyRepository,
+    val grpcClient: PixKeyRegistrationGrpcServiceGrpc.PixKeyRegistrationGrpcServiceBlockingStub
 ) {
 
     private val customerId = UUID.randomUUID().toString()

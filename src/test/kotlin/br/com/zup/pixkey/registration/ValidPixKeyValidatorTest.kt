@@ -15,7 +15,7 @@ import java.util.stream.Stream
 import javax.inject.Inject
 
 @MicronautTest
-internal class ValidPixKeyValidatorTest(@Inject private val validator: ValidPixKeyValidator) {
+internal class ValidPixKeyValidatorTest(val validator: ValidPixKeyValidator) {
 
     @ParameterizedTest
     @MethodSource("keyTypeArguments")

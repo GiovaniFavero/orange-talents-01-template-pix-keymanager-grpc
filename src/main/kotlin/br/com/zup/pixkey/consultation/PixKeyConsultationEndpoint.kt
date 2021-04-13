@@ -14,7 +14,7 @@ import javax.validation.Validator
 @ErrorHandler
 @Singleton
 class PixKeyConsultationEndpoint(
-    @Inject val repository: PixKeyRepository,
+    @Inject private val repository: PixKeyRepository,
     private val bcbPixKeyClient: BcbPixKeyClient,
     private val validator: Validator
 ) : PixKeyConsultationServiceGrpc.PixKeyConsultationServiceImplBase() {

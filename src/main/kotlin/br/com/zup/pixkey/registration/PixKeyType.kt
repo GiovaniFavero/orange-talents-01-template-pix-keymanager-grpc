@@ -19,7 +19,6 @@ enum class PixKeyType {
                 isValid(key, null)
             }
         }
-
     },
     PHONE {
         override fun validate(key: String?): Boolean {
@@ -28,7 +27,6 @@ enum class PixKeyType {
             }
             return key.matches("^\\+[1-9][0-9]\\d{1,14}\$".toRegex())
         }
-
     },
     EMAIL {
         override fun validate(key: String?): Boolean {
@@ -40,7 +38,6 @@ enum class PixKeyType {
                 isValid(key, null)
             }
         }
-
     },
     RANDOM {
         override fun validate(key: String?): Boolean {
