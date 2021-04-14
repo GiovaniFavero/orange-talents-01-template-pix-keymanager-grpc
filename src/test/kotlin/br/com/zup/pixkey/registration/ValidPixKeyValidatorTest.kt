@@ -15,11 +15,11 @@ import java.util.stream.Stream
 import javax.inject.Inject
 
 @MicronautTest
-internal class ValidPixKeyValidatorTest(val validator: ValidPixKeyValidator) {
+internal class ValidPixKeyValidatorTest(private val validator: ValidPixKeyValidator) {
 
     @ParameterizedTest
     @MethodSource("keyTypeArguments")
-    fun `Must validate the Pix Key Type (success)`(argument: ValidPixKeyArgument) {
+    fun `Must validate the Pix Key Type`(argument: ValidPixKeyArgument) {
         val pixKey = NewPixKey(
             customerId = UUID.randomUUID().toString(),
             keyType = argument.pixKeyType,
@@ -40,7 +40,9 @@ internal class ValidPixKeyValidatorTest(val validator: ValidPixKeyValidator) {
                 Arguments.of(ValidPixKeyArgument(PixKeyType.EMAIL, "email@email.com", "Should validate Email", true)),
                 Arguments.of(ValidPixKeyArgument(PixKeyType.EMAIL, "emailemail.com", "Should validate Email", false)),
                 Arguments.of(ValidPixKeyArgument(PixKeyType.PHONE, "+5547991341695", "Should validate Phone Number", true)),
-                Arguments.of(ValidPixKeyArgument(PixKeyType.PHONE, "1234", "Should validate Phone Number", false))
+                Arguments.of(ValidPixKeyArgument(PixKeyType.PHONE, "1234", "Should validate Phone Number", false)),
+                Arguments.of(ValidPixKeyArgument(PixKeyType.RANDOM, "", "Should validate random key", true)),
+                Arguments.of(ValidPixKeyArgument(PixKeyType.RANDOM, "123", "Should validate random key", false))
             )
         }
     }
